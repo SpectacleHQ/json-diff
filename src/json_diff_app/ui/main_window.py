@@ -513,8 +513,10 @@ class MainWindow(QMainWindow):
                 background: #fbfdff;
                 border: 1px solid #dce3ef;
                 border-radius: 6px;
+                color: #1f2937;
                 padding: 8px;
                 selection-background-color: #bfdbfe;
+                selection-color: #111827;
             }
             QTableWidget {
                 background: #ffffff;
