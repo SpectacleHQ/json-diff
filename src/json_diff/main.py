@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from json_diff_app.ui.main_window import run
+from json_diff.ui.main_window import run
 
 
 def main() -> int:

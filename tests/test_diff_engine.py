@@ -10,7 +10,7 @@ SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-from json_diff_app.core.diff_engine import (
+from json_diff.core.diff_engine import (
     MISSING,
     compare_json,
     format_json_with_line_map,

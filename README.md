@@ -12,29 +12,22 @@
 - **差异类型清晰**：区分左侧独有、右侧新增、值变化和类型变化。
 - **行级高亮定位**：在编辑器中高亮差异所在行，点击表格可跳转到对应位置。
 - **解析错误提示**：JSON 格式错误时展示具体行列，并高亮错误行。
-- **自动信号槽连接**：窗口交互使用 PySide6 的 `on_对象名_事件名` 自动连接约定，减少手工连接代码。
-
-## 截图说明
-
-当前项目未内置截图资源。运行程序后，你会看到左右两个 JSON 编辑区和下方差异明细表：
-
-- 左侧独有：红色
-- 右侧新增：绿色
-- 值变化：黄色
-- 类型变化：紫色
+- **标准包结构**：项目采用 `src/json_diff` 包结构，入口命令为 `uv run json_diff`。
 
 ## 目录结构
 
 ```text
 json_diff/
-├─ main.py                              # 根目录兼容启动器
-├─ pyproject.toml                       # 项目元数据和依赖配置
+├─ pyproject.toml                       # 项目元数据、依赖和命令入口
 ├─ README.md                            # 项目说明文档
+├─ uv.lock                              # uv 锁文件
 ├─ tests/
 │  └─ test_diff_engine.py               # JSON 比较核心逻辑测试
 └─ src/
-   └─ json_diff_app/
-      ├─ main.py                        # 包入口
+   └─ json_diff/
+      ├─ __init__.py                    # 暴露 main 入口
+      ├─ __main__.py                    # 支持 python -m json_diff
+      ├─ main.py                        # 应用启动入口
       ├─ core/
       │  └─ diff_engine.py              # JSON 比较、路径格式化和行号映射
       └─ ui/
@@ -51,33 +44,34 @@ json_diff/
 - PySide6 `>= 6.11.1`
 - 推荐使用 `uv` 管理依赖和运行环境
 
+## 运行项目
+
+推荐方式：
+
+```powershell
+uv run json_diff
+```
+
+也可以用模块方式启动：
+
+```powershell
+uv run python -m json_diff
+```
+
+如果已经进入虚拟环境，也可以直接运行已安装的命令：
+
+```powershell
+json_diff
+```
+
 ## 安装依赖
 
-使用 `uv`：
+通常不需要手动安装，`uv run json_diff` 会按 `pyproject.toml` 和 `uv.lock` 准备环境。
+
+如果需要提前同步环境：
 
 ```powershell
 uv sync
-```
-
-或使用普通 `pip`：
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -e .
-```
-
-## 运行项目
-
-从项目根目录直接运行：
-
-```powershell
-python main.py
-```
-
-如果已经安装为可编辑包，也可以使用命令行入口：
-
-```powershell
-json-diff
 ```
 
 ## 使用方式
@@ -99,20 +93,20 @@ json-diff
 运行标准库单元测试：
 
 ```powershell
-python -m unittest discover -s tests
+uv run python -m unittest discover -s tests
 ```
 
 运行语法检查：
 
 ```powershell
-python -m compileall -q main.py src tests
+uv run python -m compileall -q src tests
 ```
 
 GUI 冒烟测试可以在无显示环境中运行：
 
 ```powershell
 $env:QT_QPA_PLATFORM="offscreen"
-python -c "import sys; sys.path.insert(0, 'src'); from PySide6.QtWidgets import QApplication; from json_diff_app.ui.main_window import MainWindow; app=QApplication([]); window=MainWindow(); print(window.windowTitle()); window.close(); app.quit()"
+uv run python -c "from PySide6.QtWidgets import QApplication; from json_diff.ui.main_window import MainWindow; app=QApplication([]); window=MainWindow(); print(window.windowTitle()); window.close(); app.quit()"
 ```
 
 ## 重新生成 UI 代码
@@ -120,16 +114,16 @@ python -c "import sys; sys.path.insert(0, 'src'); from PySide6.QtWidgets import 
 界面结构由 Qt Designer 表单维护：
 
 ```text
-src/json_diff_app/ui/forms/main_window.ui
+src/json_diff/ui/forms/main_window.ui
 ```
 
 修改 `.ui` 后，使用下面的命令重新生成 Python 代码：
 
 ```powershell
-pyside6-uic src/json_diff_app/ui/forms/main_window.ui -o src/json_diff_app/ui/generated/ui_main_window.py
+uv run pyside6-uic src/json_diff/ui/forms/main_window.ui -o src/json_diff/ui/generated/ui_main_window.py
 ```
 
-注意：`src/json_diff_app/ui/generated/ui_main_window.py` 是生成文件，不建议手工修改。
+注意：`src/json_diff/ui/generated/ui_main_window.py` 是生成文件，不建议手工修改。
 
 ## 信号槽约定
 
@@ -157,10 +151,4 @@ on_对象名_事件名
 
 ## 项目描述
 
-中文描述：基于 PySide6 的桌面端 JSON 比较器，支持格式化、递归差异比较、差异高亮和表格定位。
-
-推荐 GitHub 仓库描述：
-
-```text
 基于 PySide6 的桌面端 JSON 比较器，支持格式化、递归差异比较、差异高亮和表格定位。
-```

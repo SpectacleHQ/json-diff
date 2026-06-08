@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (
     QTextEdit,
 )
 
-from json_diff_app.core.diff_engine import (
+from json_diff.core.diff_engine import (
     DiffItem,
     FormattedJson,
     compare_json,
@@ -28,7 +28,7 @@ from json_diff_app.core.diff_engine import (
     path_to_text,
     preview_value,
 )
-from json_diff_app.ui.generated.ui_main_window import Ui_MainWindow
+from json_diff.ui.generated.ui_main_window import Ui_MainWindow
 
 
 KIND_LABELS = {
