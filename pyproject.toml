@@ -1,0 +1,22 @@
+[project]
+name = "json-diff"
+version = "0.1.0"
+description = "基于 PySide6 的桌面端 JSON 比较器，支持格式化、递归差异比较、差异高亮和表格定位。"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pyside6>=6.11.1",
+]
+
+[project.scripts]
+json-diff = "json_diff_app.main:main"
+
+[build-system]
+requires = ["setuptools>=80"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+json_diff_app = ["ui/forms/*.ui"]
