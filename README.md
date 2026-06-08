@@ -14,6 +14,10 @@
 - **解析错误提示**：JSON 格式错误时展示具体行列，并高亮错误行。
 - **标准包结构**：项目采用 `src/json_diff` 包结构，入口命令为 `uv run json_diff`。
 
+## 界面预览
+
+![JSON Diff 桌面端比较界面](docs/images/json-diff-desktop-preview.png)
+
 ## 目录结构
 
 ```text
